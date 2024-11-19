@@ -26,7 +26,13 @@ jobs:
     - name: Build the application
       run: dotnet publish -c Release -o ./publish
 
-    # 5. Przeniesienie zbudowanej aplikacji na serwer
+    # 5. Instalowanie klucza ssh
+    - name: Install SSH key
+      run: |
+        install -m 600 -D /dev/null ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_PRIVATE.KEY }}" > ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.SERVER_HOST }} > ~/.ssh/konwn_hosts
+    # 6. Przeniesienie zbudowanej aplikacji na serwer
     - name: Deploy to production server
       run: |
         scp -r ./publish/* ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/home/dev/web/tiwms.tidev.pl/public_html
@@ -35,6 +41,6 @@ jobs:
         SERVER_USER: ${{ secrets.SERVER_USER }}
         SERVER_HOST: ${{ secrets.SERVER_HOST }}
 
-    # 6. Restart aplikacji na serwerze (np. z systemd)
+    # 7. Restart aplikacji na serwerze (np. z systemd)
     - name: Restart application
       run: ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "sudo systemctl restart aspnetapp"
