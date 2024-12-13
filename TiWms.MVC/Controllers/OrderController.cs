@@ -31,11 +31,13 @@ namespace TiWms.MVC.Controllers
             _mapper = mapper;
             _productionLineRepository = productionLineRepository;
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Index()
         {
             var orders = await _mediator.Send(new GetAllOrdersQuery());
             return View(orders);
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         [Route("Order/{id}/Details")]
         public async Task<IActionResult> Details(int id)
         {
@@ -43,7 +45,7 @@ namespace TiWms.MVC.Controllers
             return View(order);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Create()
         {
             var model = new OrderViewModel()
@@ -55,7 +57,7 @@ namespace TiWms.MVC.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Create(OrderViewModel view)
         {
             var order = new Order
@@ -71,6 +73,7 @@ namespace TiWms.MVC.Controllers
             await _mediator.Send(new CreateOrderCommand(order));
             return RedirectToAction(nameof(Create));
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         [Route("Order/{id}/Edit")]
         public async Task<IActionResult> Edit(int id)
         {
@@ -83,7 +86,7 @@ namespace TiWms.MVC.Controllers
             var mapped = _mapper.Map<EditOrderCommand>(order);
             return View(mapped);
         }
-
+        [Authorize(Roles = "Kierownik, Admin")]
         [HttpPost]
         [Route("Order/{id}/Edit")]
         public async Task<IActionResult> Edit(EditOrderCommand model)
@@ -95,6 +98,7 @@ namespace TiWms.MVC.Controllers
             await _mediator.Send(model);
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             await _mediator.Send(new DeleteOrderCommand(id));

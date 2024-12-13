@@ -27,25 +27,27 @@ namespace TiWms.MVC.Controllers
             _mediator = mediator;
             _mapper = mapper;
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Index()
         {
             var productionLines = await _mediator.Send(new GetAllProductionLinesQuery());
             return View(productionLines);
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         [Route("ProductionLine/{id}/Details")]
         public IActionResult Details(int ProductionLineId)
         {
             return View();
         }
 
-        [Authorize]
+        [Authorize(Roles = "Kierownik, Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Create(CreateProductionLineCommand command)
         {
             if (!ModelState.IsValid)
@@ -56,6 +58,7 @@ namespace TiWms.MVC.Controllers
             await _mediator.Send(command);
             return RedirectToAction(nameof(Create));
         }
+        [Authorize(Roles = "Kierownik, Admin")]
 
         [Route("ProductionLine/{id}/Edit")]
         public async Task<IActionResult> Edit(int id)
@@ -73,13 +76,14 @@ namespace TiWms.MVC.Controllers
             };
             return View(editProductionLineView);
         }
-
+        [Authorize(Roles = "Kierownik, Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(EditProductionLineView view)
         {
             await _mediator.Send(view.EditProductionLineCommand);
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             await _mediator.Send(new DeleteProductionLineCommand(id));

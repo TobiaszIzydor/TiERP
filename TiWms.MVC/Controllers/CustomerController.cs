@@ -28,26 +28,27 @@ public class CustomerController : Controller
         _mediator = mediator;
         _mapper = mapper;
     }
-
+    [Authorize(Roles ="Kierownik, Admin")]
     public async Task<IActionResult> Index()
     {
 
         var Customers = await _mediator.Send(new GetAllCustomersQuery());
         return View(Customers);
     }
+    [Authorize(Roles = "Kierownik, Admin")]
     [Route("Customer/{id}/Details")]
     public async Task<IActionResult> Details(int id)
     {
         var customer = await _mediator.Send(new GetCustomerByIdQuery(id));
         return View(customer);
     }
-
+    [Authorize(Roles = "Kierownik, Admin")]
     [Authorize]
     public IActionResult Create()
     {
         return View();
     }
-
+    [Authorize(Roles = "Kierownik, Admin")]
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> Create(CreateCustomerCommand command)
@@ -60,7 +61,7 @@ public class CustomerController : Controller
         await _mediator.Send(command);
         return RedirectToAction(nameof(Create));
     }
-
+    [Authorize(Roles = "Kierownik, Admin")]
     [Route("Customer/{id}/Edit")]
     public async Task<IActionResult> Edit(int id)
     {
@@ -72,7 +73,7 @@ public class CustomerController : Controller
         var mapped = _mapper.Map<EditCustomerCommand>(customer);
         return View(mapped);
     }
-
+    [Authorize(Roles = "Kierownik, Admin")]
     [HttpPost]
     [Route("Customer/{id}/Edit")]
     public async Task<IActionResult> Edit(EditCustomerCommand model)
@@ -84,6 +85,7 @@ public class CustomerController : Controller
         await _mediator.Send(model);
         return RedirectToAction(nameof(Index));
     }
+    [Authorize(Roles = "Kierownik, Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         await _mediator.Send(new DeleteCustomerCommand(id));

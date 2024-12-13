@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TiWms.Application.ApplicationUser;
 using TiWms.Application.Customer.Commands.DeleteCustomer;
@@ -30,12 +31,14 @@ namespace TiWms.MVC.Controllers
             _mediator = mediator;
             _userContext = userContext;
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Index()
         {
             var orderItems = await _mediator.Send(new GetAllOrderItemsQuery());
             var mapped = _mapper.Map<IEnumerable<OrderItemDto>>(orderItems);
             return View(mapped);
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         [Route("OrderItem/{id}/Edit")]
         public async Task<IActionResult> Edit(int id)
         {
@@ -49,7 +52,7 @@ namespace TiWms.MVC.Controllers
             var mapped = _mapper.Map<EditOrderItemCommand>(orderItem);
             return View(mapped);
         }
-
+        [Authorize(Roles = "Kierownik, Admin")]
         [HttpPost]
         [Route("OrderItem/{id}/Edit")]
         public async Task<IActionResult> Edit(EditOrderItemCommand model)
@@ -63,24 +66,28 @@ namespace TiWms.MVC.Controllers
             await _mediator.Send(model);
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = "Kierownik, Admin, Lider")]
         [Route("OrderItem/ForProductionLine/{id}")]
         public async Task<IActionResult> ForProductionLine(int id)
         {
             var orderItems = await _mediator.Send(new GetOrderItemsForProductionLineQuery(id));
             return View(orderItems);
         }
+        [Authorize(Roles = "Kierownik, Admin, Lider")]
         [Route("OrderItem/Process/{id}")]
         public async Task<IActionResult> Process(int id)
         {
             var orderItem = await _mediator.Send(new GetOrderItemByIdQuery(id));
             return View(orderItem);
         }
+        [Authorize(Roles = "Kierownik, Admin, Lider")]
         [HttpPost]
         public async Task<IActionResult> AddMade(int id)  // Parametr id bezpośrednio w akcji
         {
             await _mediator.Send(new AddMadeCommand(id));
             return RedirectToAction(nameof(Process), new { id });
         }
+        [Authorize(Roles = "Kierownik, Admin, Lider")]
         public async Task<IActionResult> SelectToDo()
         {
             var currentUser = await _userContext.GetCurrentUserAsync();
@@ -98,6 +105,7 @@ namespace TiWms.MVC.Controllers
             return Unauthorized("Użytkownik nie ma przypisanego pracownika.");
 
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             await _mediator.Send(new DeleteOrderItemCommand(id));

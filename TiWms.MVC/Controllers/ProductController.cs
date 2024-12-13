@@ -37,11 +37,13 @@ namespace TiWms.MVC.Controllers
             _mapper = mapper;
             _productionLineRepository = productionLineRepository;
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Index()
         {
             var products = await _mediator.Send(new GetAllProductsQuery());
             return View(products);
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         [Route("Product/{id}/Details")]
         public async Task<IActionResult> Details(int id)
         {
@@ -49,7 +51,7 @@ namespace TiWms.MVC.Controllers
             return View(product);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Create()
         {
             var model = new CreateProductView
@@ -61,7 +63,7 @@ namespace TiWms.MVC.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Create(CreateProductView view)
         {
             var productionLine = await _productionLineRepository.GetById(view.ProductionLineId);
@@ -81,6 +83,7 @@ namespace TiWms.MVC.Controllers
             await _mediator.Send(view.CreateProductCommand);
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         [Route("Product/{id}/Edit")]
         public async Task<IActionResult> Edit(int id)
         {
@@ -100,7 +103,7 @@ namespace TiWms.MVC.Controllers
             };
             return View(model);
         }
-
+        [Authorize(Roles = "Kierownik, Admin")]
         [HttpPost]
         [Route("Product/{id}/Edit")]
         public async Task<IActionResult> Edit(EditProductView view)
@@ -123,6 +126,7 @@ namespace TiWms.MVC.Controllers
             await _mediator.Send(view.EditProductCommand);
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             await _mediator.Send(new DeleteProductCommand(id));

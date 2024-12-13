@@ -38,27 +38,28 @@ public class EmployeeController : Controller
         _mapper = mapper;
         _userManager = userManager;
     }
+    [Authorize(Roles = "Kierownik, Admin")]
     public async Task<IActionResult> Index()
     {
 
         var employees = await _mediator.Send(new GetAllEmployeesQuery());
         return View(employees);
     }
-    [Route("/Employee/{id}/Details")]
+    [Authorize(Roles = "Kierownik, Admin")]
     public async Task<IActionResult> Details(int id)
     {
         var employee = await _mediator.Send(new GetEmployeeByIdQuery(id));
         return View(employee);
     }
 
-    [Authorize]
+    [Authorize(Roles = "Kierownik, Admin")]
     public IActionResult Create()
     {
         return View();
     }
 
     [HttpPost]
-    [Authorize]
+    [Authorize(Roles = "Kierownik, Admin")]
     public async Task<IActionResult> Create(CreateEmployeeCommand command)
     {
         if (!ModelState.IsValid)
@@ -69,6 +70,7 @@ public class EmployeeController : Controller
         await _mediator.Send(command);
         return RedirectToAction(nameof(Create));
     }
+    [Authorize(Roles = "Kierownik, Admin")]
     public async Task<IActionResult> AssignToUser()
     {
         var model = new EmployeeAssignToUserView
@@ -79,7 +81,7 @@ public class EmployeeController : Controller
 
         return View(model);
     }
-
+    [Authorize(Roles = "Kierownik, Admin")]
     [HttpPost]
     public async Task<IActionResult> AssignToUser(EmployeeAssignToUserView modelview)
     {
@@ -87,6 +89,7 @@ public class EmployeeController : Controller
 
         return RedirectToAction(nameof(AssignToUser)); 
     }
+    [Authorize(Roles = "Kierownik, Admin")]
     [Route("Employee/{id}/Edit")]
     public async Task<IActionResult> Edit(int id)
     {
@@ -99,7 +102,7 @@ public class EmployeeController : Controller
         var mapped = _mapper.Map<EditEmployeeCommand>(employee);
         return View(mapped);
     }
-
+    [Authorize(Roles = "Kierownik, Admin")]
     [HttpPost]
     [Route("Employee/{id}/Edit")]
     public async Task<IActionResult> Edit(EditEmployeeCommand model)
@@ -112,6 +115,7 @@ public class EmployeeController : Controller
         await _mediator.Send(model);
         return RedirectToAction(nameof(Index));
     }
+    [Authorize(Roles = "Kierownik, Admin")]
     public async Task<IActionResult> Delete(int id)
     {
         await _mediator.Send(new DeleteEmployeeCommand(id));

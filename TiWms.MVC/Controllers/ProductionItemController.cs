@@ -28,17 +28,20 @@ namespace TiWms.MVC.Controllers
             _mediator = mediator;
             _mapper = mapper;
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Index()
         {
             var productionItems = await _mediator.Send(new GetAllProductionItemsQuery());
             return View(productionItems);
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         [Route("/ProductionItem/ForProduct/{id}")]
         public async Task<IActionResult> ProductionItemsForProduct(int id)
         {
             var productionItems = await _mediator.Send(new GetAllProductionItemsForProductQuery(id));
             return View(productionItems);
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         [Route("ProductionItem/{id}/Details")]
         public async Task<IActionResult> Details(int id)
         {
@@ -46,14 +49,14 @@ namespace TiWms.MVC.Controllers
             return View(productionItem);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Kierownik, Admin")]
         public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Create(CreateProductionItemCommand command)
         {
             if (!ModelState.IsValid)
@@ -64,7 +67,7 @@ namespace TiWms.MVC.Controllers
             await _mediator.Send(command);
             return RedirectToAction(nameof(Create));
         }
-
+        [Authorize(Roles = "Kierownik, Admin")]
         [Route("ProductionItem/{id}/Edit")]
         public async Task<IActionResult> Edit(int id)
         {
@@ -76,7 +79,7 @@ namespace TiWms.MVC.Controllers
             var mapped = _mapper.Map<EditProductionItemCommand>(productionItem);
             return View(mapped);
         }
-
+        [Authorize(Roles = "Kierownik, Admin")]
         [HttpPost]
         [Route("ProductionItem/{id}/Edit")]
         public async Task<IActionResult> Edit(EditProductionItemCommand model)
@@ -88,6 +91,7 @@ namespace TiWms.MVC.Controllers
             await _mediator.Send(model);
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             await _mediator.Send(new DeleteProductionItemCommand(id));
