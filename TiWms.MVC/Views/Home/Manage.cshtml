@@ -1,0 +1,117 @@
+﻿
+@{
+}
+<div class="container py-5">
+    <h1 class="mb-4 text-center">Panel zarządzania</h1>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        @if (User.IsInRole("Kierownik") || User.IsInRole("Admin"))
+        {
+            <div class="col">
+                <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Zarządzaj Pracownikami</h5>
+                    <p class="card-text">Dodawaj, edytuj lub usuwaj informacje o pracownikach.</p>
+                    <a href="/Employee" class="btn btn-primary">Przejdź</a>
+                </div>
+            </div>
+        </div>
+        }
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="col">
+                <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Przypisz Pracownika do Konta</h5>
+                    <p class="card-text">Powiąż pracowników z kontami użytkowników w systemie.</p>
+                    <a href="/Employee/AssignToUser" class="btn btn-primary">Przejdź</a>
+                </div>
+            </div>
+        </div>
+        }
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="col">
+                <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Przypisz Rolę do Użytkownika</h5>
+                    <p class="card-text">Określ role dla użytkowników systemu.</p>
+                    <a href="/Role/Set" class="btn btn-primary">Przejdź</a>
+                </div>
+            </div>
+        </div>
+        }
+        @if (User.IsInRole("Kierownik") || User.IsInRole("Admin"))
+        {
+            <div class="col">
+                <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Zarządzaj Produktami</h5>
+                    <p class="card-text">Dodawaj i zarządzaj produktami firmy.</p>
+                    <a href="/Product" class="btn btn-primary">Przejdź</a>
+                </div>
+            </div>
+        </div>
+        }
+        @if (User.IsInRole("Kierownik") || User.IsInRole("Admin"))
+        {
+            <div class="col">
+                <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Zarządzaj Półproduktami</h5>
+                    <p class="card-text">Zarządzaj surowcami i półproduktami potrzebnymi do produkcji.</p>
+                    <a href="/ProductionItem" class="btn btn-primary">Przejdź</a>
+                </div>
+            </div>
+        </div>
+        }
+        @if (User.IsInRole("Kierownik") || User.IsInRole("Admin"))
+        {
+            <div class="col">
+                <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Zarządzaj Zamówieniami</h5>
+                    <p class="card-text">Przeglądaj i edytuj zamówienia klientów.</p>
+                    <a href="/Order" class="btn btn-primary">Przejdź</a>
+                </div>
+            </div>
+        </div>
+        }
+        @if (User.IsInRole("Kierownik") || User.IsInRole("Admin"))
+        {
+            <div class="col">
+                <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Zarządzaj Elementami Zamówień</h5>
+                    <p class="card-text">Zarządzaj szczegółami zamówień.</p>
+                    <a href="/OrderItem" class="btn btn-primary">Przejdź</a>
+                </div>
+            </div>
+        </div>
+        }
+        @if (User.IsInRole("Kierownik") || User.IsInRole("Admin"))
+        {
+            <div class="col">
+                <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Zarządzaj Liniami Produkcyjnymi</h5>
+                    <p class="card-text">Utrzymuj i zarządzaj liniami produkcyjnymi.</p>
+                    <a href="/ProductionLine" class="btn btn-primary">Przejdź</a>
+                </div>
+            </div>
+        </div>
+        }
+        @if (User.IsInRole("Kierownik") || User.IsInRole("Admin") || User.IsInRole("Lider"))
+        {
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Zrealizuj zamówienie</h5>
+                        <p class="card-text">Zrealizuj zamówienie dla twojej linii produkcyjnej.</p>
+                        <a href="/OrderItem/SelectToDo" class="btn btn-primary">Przejdź</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

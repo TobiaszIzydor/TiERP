@@ -1,0 +1,41 @@
+﻿@model IEnumerable<TiWms.Application.ProductionLine.DTOs.ProductionLineDto>
+
+@{
+    ViewData["Title"] = "Lista linii produkcyjnych";
+}
+
+<h1>Lista linii produkcyjnych</h1>
+
+<p>
+    <a asp-action="Create">Dodaj nową</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Nazwa
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a href="/ProductionLine/@item.Id/Edit">Edytuj</a>
+                    @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }) |
+                    @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

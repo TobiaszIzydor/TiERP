@@ -1,0 +1,47 @@
+﻿@model IEnumerable<TiWms.Application.Order.DTOs.OrderDto>
+
+@{
+    ViewData["Title"] = "Lista zamówień";
+}
+
+<h1>Lista zamówień</h1>
+
+<p>
+    <a asp-action="Create">Dodaj nowe</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Klient
+            </th>
+            <th>
+                Utworzył
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy.UserName)
+            </td>
+            <td>
+                    @Html.ActionLink("Edytuj", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Szczegóły", "Details", new {  id=item.Id }) |
+                    @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

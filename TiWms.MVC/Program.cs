@@ -3,20 +3,31 @@ using TiWms.Infrastructure.Persistence;
 using TiWms.Infrastructure.Extensions;
 using TiWms.Application.Extensions;
 using TiWms.Infrastructure.Seeders;
+using Microsoft.AspNetCore.Identity;
+using TiWms.Domain.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
+builder.Services.AddRazorPages();
+
 
 var app = builder.Build();
 
 var scope = app.Services.CreateScope();
 
-var seeder = scope.ServiceProvider.GetRequiredService<EmployeeSeeder>();
-await seeder.Seed();
+using (var s = app.Services.CreateScope())
+{
+    var roleManager = s.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    await RoleSeeder.Seed(roleManager);
+}
+
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -36,5 +47,8 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+
+app.MapRazorPages();
 
 app.Run();

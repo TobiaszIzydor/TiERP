@@ -1,0 +1,39 @@
+﻿@model TiWms.Application.Order.Commands.EditOrder.EditOrderCommand
+
+@{
+    ViewData["Title"] = "Edycja zamówienia";
+}
+
+<h1>Edycja</h1>
+
+<h4>Edycja zamówienia</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="Id" type="hidden" class="form-control" />
+            <div class="form-group">
+                <label asp-for="CustomerId" class="control-label">Klient</label>
+                <select class="form-control" asp-for="CustomerId">
+                    @foreach(var item in ViewBag.Customers)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Powrót do listy</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

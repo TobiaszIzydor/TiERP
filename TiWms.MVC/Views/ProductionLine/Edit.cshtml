@@ -1,0 +1,47 @@
+﻿@model EditProductionLineView
+
+@{
+    ViewData["Title"] = "Edycja";
+}
+
+<h1>Edycja</h1>
+
+<h4>Edycja linii produkcyjnej</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="EditProductionLineCommand.Id" class="control-label">Id</label>
+                <input asp-for="EditProductionLineCommand.Id" class="form-control" />
+                <span asp-validation-for="EditProductionLineCommand.Id" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EditProductionLineCommand.Name" class="control-label">Nazwa</label>
+                <input asp-for="EditProductionLineCommand.Name" class="form-control" />
+                <span asp-validation-for="EditProductionLineCommand.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EditProductionLineCommand.LineLiderId" class="control-label">Lider</label>
+                <select asp-for="EditProductionLineCommand.LineLiderId" class="form-control">
+                    @foreach(var item in Model.Liders)
+                    {
+                        <option value="@item.Id">@item.FirstName @item.LastName</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Powrót do listy</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

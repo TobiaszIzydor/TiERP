@@ -1,0 +1,54 @@
+﻿@model TiWms.Application.Product.DTOs.ProductDto
+
+@{
+    ViewData["Title"] = "Szczegóły produktu";
+}
+
+<h1>Szczegóły</h1>
+
+<div>
+    <h4>Szczegóły produktu</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Id
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            Nazwa
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Linia prod.
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ProductionLine.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            Utworzył
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CreatedBy.UserName)
+        </dd>
+        <dt class="col-sm-2">
+            Elementy produkcyjne
+        </dt>
+        @foreach(var item in Model.ProductionItems)
+        {
+            <dd class="col-sm-10">
+                @item.Name
+            </dd>
+            <dt class="col-sm-2">
+            </dt>
+        }
+        
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

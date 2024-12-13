@@ -8,10 +8,10 @@ namespace TiWms.Domain.Entities
 {
     public class EmployeeContactInfo
     {
-        public string Email { get; set; }
-        public string Phone { get; set; }
-        public string EmergencyPhone { get; set; }
-        public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        public string Email { get; set; } = default!;
+        public string Phone { get; set; } = default!;
+        public string EmergencyPhone { get; set; } = default!;
+        public int EmployeeId { get; set; } = default!;
+        public Employee Employee { get; set; } = default!;
     }
 }

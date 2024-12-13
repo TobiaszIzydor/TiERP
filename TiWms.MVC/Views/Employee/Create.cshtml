@@ -1,31 +1,41 @@
-﻿<h1>Dodaj pracownika</h1>
+﻿@using TiWms.Application.Employee.Commands.CreateEmployee
+@using TiWms.Application.Employee.DTOs;
+
+@model CreateEmployeeCommand
+
+<h1>Dodaj pracownika</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form action="/Employee/Create" method="post">
             <div class="form-group mb-3">
-                <label class="control-label" for="FirstName">Imię:</label>
-                <input class="form-control" type="text" id="FirstName" name="FirstName" />
+                <label class="control-label" asp-for="FirstName">Imię:</label>
+                <input class="form-control" type="text" asp-for="FirstName">
+                <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
-                <label class="control-label" for="LastName">Nazwisko:</label>
-                <input class="form-control" type="text" id="LastName" name="LastName" />
+                <label class="control-label" asp-for="LastName">Nazwisko:</label>
+                <input class="form-control" type="text" asp-for="LastName" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
-                <label class="control-label" for="HireDate">Data zatrudnienia:</label>
-                <input class="form-control" type="date" value="@DateOnly.FromDateTime(DateTime.Now)" id="HireDate" name="HireDate" />
+                <label class="control-label" asp-for="HireDate">Data zatrudnienia:</label>
+                <input class="form-control" type="date" value="@DateOnly.FromDateTime(DateTime.Now)" asp-for="HireDate" />
             </div>
             <div class="form-group mb-3">
-                <label class="control-label" for="ContactInfo.Email">Email</label>
-                <input class="form-control" type="text" id="ContactInfo.Email" name="ContactInfo.Email" />
+                <label class="control-label" asp-for="Email">Email</label>
+                <input class="form-control" type="text" asp-for="Email" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
-                <label class="control-label" for="ContactInfo.Phone">Numer tel.:</label>
-                <input class="form-control" type="text" id="ContactInfo.Phone" name="ContactInfo.Phone" />
+                <label class="control-label" asp-for="Phone">Numer tel.:</label>
+                <input class="form-control" type="text" asp-for="Phone" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
-                <label class="control-label" for="ContactInfo.EmergencyPhone">Numer tel. osoby do informacji:</label>
-                <input class="form-control" type="text" id="ContactInfo.EmergencyPhone" name="ContactInfo.EmergencyPhone" />
+                <label class="control-label" asp-for="EmergencyPhone">Numer tel. osoby do informacji:</label>
+                <input class="form-control" type="text" asp-for="EmergencyPhone" />
+                <span asp-validation-for="EmergencyPhone" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
                 <input type="submit" value="Dodaj" class="btn btn-primary" />
@@ -33,3 +43,8 @@
         </form>
     </div>
 </div>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

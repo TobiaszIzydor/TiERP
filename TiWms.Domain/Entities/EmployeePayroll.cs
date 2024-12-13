@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace TiWms.Domain.Entities
 {
+    public enum PaymentMethod
+    {
+        BankTransfer,
+        Cash
+    }
     public class EmployeePayroll
     {
         public int Id { get; set; }
@@ -14,12 +19,9 @@ namespace TiWms.Domain.Entities
         public DateOnly PayPeriodStart { get; set; }
         public DateOnly PayPeriodEnd { get; set; }
         public DateOnly PaymentDate { get; set; }
-        public enum PaymentMethod
-        {
-            BankTransfer, 
-            Cash 
-        }
+
+        public PaymentMethod PaymentMethod { get; set; }
         public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        public Employee Employee { get; set; } = default!;
     }
 }

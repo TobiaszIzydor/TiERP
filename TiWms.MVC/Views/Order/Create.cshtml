@@ -1,0 +1,72 @@
+﻿@model OrderViewModel
+@{
+    ViewData["Title"] = "Nowe zamówienie";
+}
+
+<h1>Nowe zamówienie</h1>
+
+<form asp-action="Create" method="post">
+    <table>
+        <thead>
+            <tr>
+                <th>Produkt</th>
+                <th>Ilość</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="orderItems">
+            <div class="form-group">
+                <label asp-for="DeadLine" class="control-label">Deadline</label>
+                <input asp-for="DeadLine" class="form-control" value="@DateOnly.FromDateTime(DateTime.Today)" type="date"/>
+                <span asp-validation-for="DeadLine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerId" class="control-label">Klient</label>
+                <select asp-for="CustomerId" class="form-control">
+                    @foreach(var item in Model.Customers)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="CustomerId" class="text-danger"></span>
+            </div>
+            
+            <!-- Wiersze dodawane dynamicznie -->
+        </tbody>
+    </table>
+
+    <button type="button" class="btn btn-primary" id="addRow">Dodaj produkt</button>
+    <button type="submit" class="btn btn-primary">Zapisz</button>
+</form>
+
+<script>
+    let products = @Html.Raw(Json.Serialize(Model.Products));
+    let index = 0;
+
+    document.getElementById('addRow').addEventListener('click', () => {
+        const table = document.getElementById('orderItems');
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+            <td>
+                <select class="form-control" name="Items[${index}].ProductId">
+                    ${products.map(product => `<option value="${product.id}">${product.name}</option>`).join('')}
+                </select>
+            </td>
+            <td>
+                <input class="form-control" type="number" name="Items[${index}].Quantity" min="1" />
+            </td>
+            <td>
+                    <button type="button" class="removeRow btn btn-primary">Usuń</button>
+            </td>
+        `;
+
+        table.appendChild(row);
+        index++;
+
+        // Obsługa usuwania wiersza
+        row.querySelector('.removeRow').addEventListener('click', () => {
+            row.remove();
+        });
+    });
+</script>

@@ -13,8 +13,11 @@ namespace TiWms.Domain.Entities
         public string LastName { get; set; } = default!;
         public DateOnly HireDate { get; set; } = default!;
         public EmployeeContactInfo ContactInfo { get; set; } = default!;
-        public EmployeePayroll Payroll { get; set; } = default!;
-        public User User { get; set; } = default!;
+        public int? ProductionLineId { get; set; }
+        public ProductionLine? ProductionLine { get; set; }
+        public string? UserId {  get; set; }
+        public ApplicationUser? User { get; set; }
+        public ProductionLine? LiderOfLine { get; set; }
 
     }
 }

@@ -5,11 +5,11 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TiWms.MVC", "TiWms.MVC\TiWms.MVC.csproj", "{9291FBCC-670D-4FAF-81E9-AE6C9FE07419}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiWms.Application", "TiWms.Application\TiWms.Application.csproj", "{D4170461-0384-40C3-9D6E-D81F7DD34457}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TiWms.Application", "TiWms.Application\TiWms.Application.csproj", "{D4170461-0384-40C3-9D6E-D81F7DD34457}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiWms.Domain", "TiWms.Domain\TiWms.Domain.csproj", "{91371FBA-A887-43AA-8CB7-A75E396AB96F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TiWms.Domain", "TiWms.Domain\TiWms.Domain.csproj", "{91371FBA-A887-43AA-8CB7-A75E396AB96F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TiWms.Infrastructure", "TiWms.Infrastructure\TiWms.Infrastructure.csproj", "{628D1EFD-E1D6-4FDF-845F-5563F5018569}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TiWms.Infrastructure", "TiWms.Infrastructure\TiWms.Infrastructure.csproj", "{628D1EFD-E1D6-4FDF-845F-5563F5018569}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
