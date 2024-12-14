@@ -26,6 +26,7 @@ namespace TiWms.Application.Employee.Commands.CreateEmployee
         public async Task<Unit> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
         {
             var employee = _mapper.Map<Domain.Entities.Employee>(request);
+            employee.ProductionLineId = 1;
             await _employeeRepository.Create(employee);
             return Unit.Value;
         }

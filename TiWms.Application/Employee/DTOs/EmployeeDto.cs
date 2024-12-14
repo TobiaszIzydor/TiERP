@@ -17,7 +17,7 @@ namespace TiWms.Application.Employee.DTOs
         public string? Email { get; set; }
         public string? Phone { get; set; }
         public string? EmergencyPhone { get; set; }
-        public int ProductionLineId { get; set; }
+        public int ProductionLineId { get; set; } = 0;
         public Domain.Entities.ProductionLine? ProductionLine { get; set; }
         public string? UserId { get; set; }
         public Domain.Entities.ApplicationUser? User { get; set; }

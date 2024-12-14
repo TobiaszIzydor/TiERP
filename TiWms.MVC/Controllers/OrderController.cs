@@ -12,9 +12,11 @@ using TiWms.Application.Order.Commands.EditOrder;
 using TiWms.Application.Order.Queries.GetAllOrders;
 using TiWms.Application.Order.Queries.GetOrderById;
 using TiWms.Application.Product.Queries.GetAllProducts;
+using TiWms.Application.Product.Queries.GetAllProductsSimple;
 using TiWms.Application.ProductionLine.Queries.GetAllProductionLines;
 using TiWms.Domain.Entities;
 using TiWms.Domain.Interfaces;
+using TiWms.Infrastructure.Repositories;
 using TiWms.MVC.Models;
 
 namespace TiWms.MVC.Controllers
@@ -24,12 +26,14 @@ namespace TiWms.MVC.Controllers
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
         private readonly IProductionLineRepository _productionLineRepository;
+        private readonly IProductRepository _productRepository;
 
-        public OrderController(IMediator mediator, IMapper mapper, IProductionLineRepository productionLineRepository)
+        public OrderController(IMediator mediator, IMapper mapper, IProductionLineRepository productionLineRepository, IProductRepository productRepository)
         {
             _mediator = mediator;
             _mapper = mapper;
             _productionLineRepository = productionLineRepository;
+            _productRepository = productRepository;
         }
         [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Index()
@@ -47,11 +51,11 @@ namespace TiWms.MVC.Controllers
 
         [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Create()
-        {
+        {   
             var model = new OrderViewModel()
             {
                 Customers = await _mediator.Send(new GetAllCustomersQuery()),
-                Products = await _mediator.Send(new GetAllProductsQuery()),
+                Products = await _mediator.Send(new GetAllProductsSimpleQuery()),
             };
             return View(model);
         }

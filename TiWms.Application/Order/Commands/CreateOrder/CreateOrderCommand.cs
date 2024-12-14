@@ -8,7 +8,7 @@ using TiWms.Application.Order.DTOs;
 
 namespace TiWms.Application.Order.Commands.CreateOrder
 {
-    public class CreateOrderCommand : OrderDto, IRequest<Unit>
+    public class CreateOrderCommand : IRequest<Unit>
     {
         public Domain.Entities.Order Order { get; set; }
         public CreateOrderCommand(Domain.Entities.Order order)

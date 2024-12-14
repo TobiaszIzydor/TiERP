@@ -10,6 +10,7 @@ namespace TiWms.Domain.Interfaces
     public interface IProductRepository
     {
         Task<IEnumerable<Product>> GetAll();
+        Task<IEnumerable<Product>> GetAllSimply();
         Task<Product> GetById(int id);
         Task Create(Product product);
         Task Commit();

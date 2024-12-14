@@ -43,11 +43,16 @@ namespace TiWms.Infrastructure.Repositories
             var products =  _dbContext.Products.Include(p => p.ProductionLine).Include(p => p.ProductionItems).Include(p => p.CreatedBy).ToList();
             return products;
         }
-
         public async Task<Product> GetById(int id)
         {
             var product = await _dbContext.Products.Include(p => p.ProductionLine).Include(p => p.ProductionItems).Include(p => p.CreatedBy).FirstAsync(p => p.Id == id);
             return product;
+        }
+
+        public async Task<IEnumerable<Product>> GetAllSimply()
+        {
+            var products = await _dbContext.Products.ToListAsync();
+            return products;
         }
     }
 }

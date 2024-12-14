@@ -11,7 +11,7 @@ namespace TiWms.Application.Product.DTOs
     {
         public int Id { get; set; }
         public string? Name { get; set; }
-        public ICollection<Domain.Entities.ProductionItem> ProductionItems { get; set; } = new List<Domain.Entities.ProductionItem>();
+        public ICollection<Domain.Entities.ProductionItem>? ProductionItems { get; set; }
         public Domain.Entities.ProductionLine ProductionLine { get; set; } = default!;
         public string? CreatedById { get; set; }
         public Domain.Entities.ApplicationUser? CreatedBy { get; set; }

@@ -19,13 +19,13 @@ namespace TiWms.Infrastructure.Repositories
         }
         public Order GetByIdEntity(int id)
         {
-            var order = _dbContext.Orders.FirstOrDefault(x => x.Id == id);
+            var order = _dbContext.Order.FirstOrDefault(x => x.Id == id);
             return order;
         }
         public async Task DeleteById(int id)
         {
             var delete = GetByIdEntity(id);
-            _dbContext.Orders.Remove(delete);
+            _dbContext.Order.Remove(delete);
             await _dbContext.SaveChangesAsync();
         }
         public async Task Commit()
@@ -34,19 +34,20 @@ namespace TiWms.Infrastructure.Repositories
         }
         public async Task Create(Order order)
         {
-            _dbContext.Orders.Add(order);
+            order.Id = 0;
+            _dbContext.Order.Add(order);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Order>> GetAll()
         {
-            var orders = await _dbContext.Orders.Include(o => o.Items).ThenInclude(p => p.Product).Include(o => o.CreatedBy).Include(o => o.Customer).ToListAsync();
+            var orders = await _dbContext.Order.Include(o => o.Items).ThenInclude(p => p.Product).Include(o => o.CreatedBy).Include(o => o.Customer).ToListAsync();
             return orders;
         }
 
         public Task<Order> GetById(int id)
         {
-            var order = _dbContext.Orders.Include(o => o.Items).ThenInclude(p => p.Product).Include(o => o.CreatedBy).Include(o => o.Customer).FirstAsync(o => o.Id == id);
+            var order = _dbContext.Order.Include(o => o.Items).ThenInclude(p => p.Product).Include(o => o.CreatedBy).Include(o => o.Customer).FirstAsync(o => o.Id == id);
             return order;
         }
     }

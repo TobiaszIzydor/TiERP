@@ -20,12 +20,12 @@ var app = builder.Build();
 
 var scope = app.Services.CreateScope();
 
-using (var s = app.Services.CreateScope())
+/*using (var s = app.Services.CreateScope())
 {
     var roleManager = s.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
     await RoleSeeder.Seed(roleManager);
-}
+}*/
 
 
 
