@@ -23,7 +23,7 @@ namespace TiWms.Infrastructure.Repositories
         }
         public async Task AssignToOrder(int orderId, int orderItemId)
         {
-            var order = await _dbContext.Order.FirstAsync(o => o.Id == orderId);
+            var order = await _dbContext.Orders.FirstAsync(o => o.Id == orderId);
             var orderItem = await _dbContext.OrderItems.FirstAsync(o => o.Id == orderItemId);
             order.Items.Add(orderItem);
             await _dbContext.SaveChangesAsync();
@@ -59,7 +59,7 @@ namespace TiWms.Infrastructure.Repositories
 
         public async Task<IEnumerable<OrderItem>> GetByOrderId(int id)
         {
-            var order = await _dbContext.Order.FirstAsync(o =>o.Id == id);
+            var order = await _dbContext.Orders.FirstAsync(o =>o.Id == id);
             var orderItems = order.Items.ToList();
             return orderItems;
         }

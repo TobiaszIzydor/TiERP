@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using TiWms.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace TiWms.MVC.Areas.Identity.Pages.Account
 {
@@ -67,9 +68,9 @@ namespace TiWms.MVC.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            /*[Required]
             [EmailAddress]
-            public string Email { get; set; }
+            public string Email { get; set; }*/
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -114,7 +115,8 @@ namespace TiWms.MVC.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var user = await _userManager.FindByEmailAsync(Input.Email);
+                //var user = await _userManager.FindByEmailAsync(Input.Email);
+                var user = await _userManager.Users.FirstOrDefaultAsync(x => x.EmployeeCardPassword == Input.Card);
                 if (user == null)
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");

@@ -17,7 +17,7 @@ namespace TiWms.Infrastructure.Persistence
             
         }
         public DbSet<Employee> Employees { get; set; }
-        public DbSet<Order> Order { get; set; }
+        public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductionItem> ProductionItems { get; set; }
