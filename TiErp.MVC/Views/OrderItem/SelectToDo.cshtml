@@ -1,0 +1,59 @@
+﻿@model IEnumerable<TiErp.Application.OrderItem.DTOs.OrderItemDto>
+
+@{
+    ViewData["Title"] = "Wybór zamówienia do realizacji";
+}
+
+<h1>Wybór zamówienia do realizacji</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Produkt
+            </th>
+            <th>
+                Ilość do wykonania
+            </th>
+            <th>
+                Zrobionych
+            </th>
+            <th>
+                Id zamówienia
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Product.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Made)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Wykonaj", "Process", new { id=item.Id })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

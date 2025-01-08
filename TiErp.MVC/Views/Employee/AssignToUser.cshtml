@@ -1,0 +1,56 @@
+﻿@model TiErp.MVC.Models.EmployeeAssignToUserView
+
+@{
+    ViewData["Title"] = "Set";
+}
+
+<h1>Pracownik</h1>
+
+<h4>Przypisz pracownika do użytkownika systemu</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AssignToUser" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="UserId" class="control-label">Użytkownik</label>
+                <select asp-for="UserId" class="form-control">
+                    @foreach (var item in Model.Users)
+                    {
+                        <option value="@item.Id" )>
+                            @item.UserName
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="UserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmployeeId" class="control-label">Pracownik</label>
+                <select asp-for="EmployeeId" class="form-control">
+                    @foreach (var item in Model.Employees)
+                    {
+                        <option value="@item.Id" )>
+                            @item.FirstName @item.LastName
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="EmployeeId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Przypisz" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

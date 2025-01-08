@@ -1,0 +1,54 @@
+﻿@model TiErp.Application.ProductionItem.DTOs.ProductionItemDto
+
+@{
+    ViewData["Title"] = "Szczegóły";
+}
+
+<h1>Szczegóły</h1>
+
+<div>
+    <h4>Szczegółu elementu produkcyjnego</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Id
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            Nazwa
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            EAN11
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EAN13)
+        </dd>
+        <dt class = "col-sm-2">
+            Ilość magazynowa
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+        <dt class = "col-sm-2">
+            Kod lokalizacji na magazynie
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WareHouseLocationCode)
+        </dd>
+        <dt class = "col-sm-2">
+            Utworzył
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CreatedBy.UserName)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    <a asp-action="Index">Powrót do listy</a>
+</div>

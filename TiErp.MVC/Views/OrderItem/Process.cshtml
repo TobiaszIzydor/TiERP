@@ -1,0 +1,56 @@
+﻿@model TiErp.Application.OrderItem.DTOs.OrderItemDto
+
+@{
+    ViewData["Title"] = "Wykonywanie zlecenia";
+}
+
+<h1 class="text-center">Wykonywanie zlecenia</h1>
+
+<div class="container mt-5">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h4>Szczegóły Zlecenia</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-4">Id</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Id)</dd>
+
+                <dt class="col-sm-4">Produkt</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Product.Name)</dd>
+
+                <dt class="col-sm-4">Id Zamówienia</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.OrderId)</dd>
+
+                <dt class="col-sm-4">Status</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Status)</dd>
+            </dl>
+        </div>
+
+        <div class="col-md-6 text-center">
+            <h4>Postęp Zlecenia</h4>
+            <hr />
+            <div class="d-flex flex-column align-items-center">
+                <div class="display-4 mb-3 text-success">
+                    Zrobiono: @Html.DisplayFor(model => model.Made)
+                </div>
+                <div class="display-4 mb-3 text-danger">
+                    Do zrobienia: @(Model.Quantity - Model.Made)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <form asp-action="AddMade" method="post">
+            <input type="hidden" name="id" value="@Model.Id" />
+            <button class="btn btn-lg btn-primary" type="submit">Dodaj +1</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .display-4 {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+</style>

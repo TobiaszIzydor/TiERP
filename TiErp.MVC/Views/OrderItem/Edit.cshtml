@@ -1,0 +1,64 @@
+﻿@model TiErp.Application.OrderItem.Commands.EditOrderItem.EditOrderItemCommand
+
+@{
+    ViewData["Title"] = "Edytuj";
+}
+
+<h1>Edytuj</h1>
+
+<h4>Edycja elementu zamówienia</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="Id" class="form-control" type="hidden"/>
+            <div class="form-group">
+                <label asp-for="ProductId" class="control-label">Produkt</label>
+                <select asp-for="ProductId" class="form-control">
+                    @foreach(var item in ViewBag.Products)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="ProductId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OrderId" class="control-label">Id zamówienia</label>
+                <select asp-for="OrderId" class="form-control">
+                    @foreach(var item in ViewBag.Orders)
+                    {
+                        <option value="@item.Id">@item.Id</option>
+                    }
+                </select>
+                <span asp-validation-for="OrderId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label">Ilość</label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label">Status</label>
+                <select asp-for="Status" class="form-control">
+                    <option value="ToDo">To do</option>
+                    <option value="InProgress">In progress</option>
+                    <option value="Done">Done</option>
+                    <option value="Canceled">Canceled</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Zapisz" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Powrót do listy</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

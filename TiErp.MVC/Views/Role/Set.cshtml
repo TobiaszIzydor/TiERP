@@ -1,0 +1,51 @@
+﻿@model TiErp.MVC.Models.SetRoleToUserView
+
+@{
+    ViewData["Title"] = "Przypisz rolę użytkownikowi";
+}
+
+<h1>Przypsiz rolę użytkownikowi</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Set" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label asp-for="SetRoleToApplicationUserCommand.RoleName" class="control-label">Rola</label>
+                <select asp-for="SetRoleToApplicationUserCommand.RoleName" class="form-control">
+                    <option value="">Wybierz rolę</option>
+                    @foreach (var item in Model.Roles)
+                    {
+                        <option value="@item.Name")>
+                            @item.Name
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="SetRoleToApplicationUserCommand.RoleName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SetRoleToApplicationUserCommand.UserId" class="control-label">Użytkownik</label>
+                <select asp-for="SetRoleToApplicationUserCommand.UserId" class="form-control">
+                    <option value="">Wybierz użytkownika</option>
+                    @foreach (var item in Model.Users)
+                    {
+                        <option value="@item.Id")>
+                            @item.UserName
+                        </option>
+                    }
+                </select>
+                <span asp-validation-for="SetRoleToApplicationUserCommand.UserId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Nadaj rolę" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
