@@ -20,4 +20,8 @@
     <ProjectReference Include="..\TiErp.Application\TiErp.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

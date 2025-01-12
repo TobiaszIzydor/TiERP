@@ -20,6 +20,7 @@ using TiErp.Application.ProductionItem.Queries.GetProductionItemByIdEntity;
 using TiErp.Application.ProductionLine.Commands.CreateProductionLine;
 using TiErp.Application.ProductionLine.Queries.GetAllProductionLines;
 using TiErp.Application.ProductionLine.Queries.GetProductionLineById;
+using TiErp.Domain.Entities;
 using TiErp.Domain.Interfaces;
 using TiErp.MVC.Models;
 
@@ -69,6 +70,7 @@ namespace TiErp.MVC.Controllers
             var productionLine = await _productionLineRepository.GetById(view.ProductionLineId);
             view.CreateProductCommand.ProductionLine = productionLine;
             view.CreateProductCommand.Name = view.Name;
+            view.CreateProductCommand.ProductionItems ??= new List<ProductionItem>();
 
 
             foreach (var id in view.SelectedProductionItemIds)

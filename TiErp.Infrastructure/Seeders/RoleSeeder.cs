@@ -9,7 +9,7 @@ using TiErp.Infrastructure.Persistence;
 
 namespace TiErp.Infrastructure.Seeders
 {
-/*    public static class RoleSeeder
+    public static class RoleSeeder
     {
         public static class DefaultRoles
         {
@@ -25,5 +25,5 @@ namespace TiErp.Infrastructure.Seeders
                 }
             }
         }
-    }*/
+    }
 }

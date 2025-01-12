@@ -12,8 +12,8 @@ using TiErp.Infrastructure.Persistence;
 namespace TiErp.Infrastructure.Migrations
 {
     [DbContext(typeof(TiErpDbContext))]
-    [Migration("20241207151648_Add-CreatedById-Customer")]
-    partial class AddCreatedByIdCustomer
+    [Migration("20250112192747_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,6 +161,21 @@ namespace TiErp.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("ProductProductionItem", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ProductionItemsId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ProductId", "ProductionItemsId");
+
+                    b.HasIndex("ProductionItemsId");
+
+                    b.ToTable("ProductProductionItem", (string)null);
+                });
+
             modelBuilder.Entity("TiErp.Domain.Entities.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -263,6 +278,8 @@ namespace TiErp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatedById");
+
                     b.ToTable("Customers");
                 });
 
@@ -288,48 +305,14 @@ namespace TiErp.Infrastructure.Migrations
                     b.Property<int?>("ProductionLineId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ProductionLineId");
 
                     b.ToTable("Employees");
-                });
-
-            modelBuilder.Entity("TiErp.Domain.Entities.EmployeePayroll", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("BaseSallary")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("Bonus")
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("integer");
-
-                    b.Property<DateOnly>("PayPeriodEnd")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly>("PayPeriodStart")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly>("PaymentDate")
-                        .HasColumnType("date");
-
-                    b.Property<int>("PaymentMethod")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("EmployeeId")
-                        .IsUnique();
-
-                    b.ToTable("EmployeePayrolls");
                 });
 
             modelBuilder.Entity("TiErp.Domain.Entities.Order", b =>
@@ -340,20 +323,20 @@ namespace TiErp.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CreatedById")
+                        .HasColumnType("text");
+
                     b.Property<int>("CustomerId")
                         .HasColumnType("integer");
 
                     b.Property<DateOnly>("DeadLine")
                         .HasColumnType("date");
 
-                    b.Property<int?>("ProductionLineId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
+                    b.HasIndex("CreatedById");
 
-                    b.HasIndex("ProductionLineId");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Orders");
                 });
@@ -365,6 +348,9 @@ namespace TiErp.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Made")
+                        .HasColumnType("integer");
 
                     b.Property<int?>("OrderId")
                         .HasColumnType("integer");
@@ -395,6 +381,9 @@ namespace TiErp.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CreatedById")
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -403,6 +392,8 @@ namespace TiErp.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatedById");
 
                     b.HasIndex("ProductionLineId");
 
@@ -417,16 +408,16 @@ namespace TiErp.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("EAN11")
+                    b.Property<string>("CreatedById")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EAN13")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("ProductID")
-                        .HasColumnType("integer");
 
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
@@ -437,7 +428,7 @@ namespace TiErp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductID");
+                    b.HasIndex("CreatedById");
 
                     b.ToTable("ProductionItems");
                 });
@@ -450,8 +441,11 @@ namespace TiErp.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("LineLiderId")
+                    b.Property<string>("CreatedById")
                         .HasColumnType("text");
+
+                    b.Property<int?>("LineLiderId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -459,9 +453,59 @@ namespace TiErp.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LineLiderId");
+                    b.HasIndex("CreatedById");
+
+                    b.HasIndex("LineLiderId")
+                        .IsUnique();
 
                     b.ToTable("ProductionLines");
+                });
+
+            modelBuilder.Entity("TiErp.Domain.Entities.WarehouseOrder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DeliveryToLineId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DeliveryToLineId");
+
+                    b.ToTable("WarehouseOrders");
+                });
+
+            modelBuilder.Entity("TiErp.Domain.Entities.WarehouseOrderItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ProductionItemId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("WarehouseOrderId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductionItemId");
+
+                    b.HasIndex("WarehouseOrderId");
+
+                    b.ToTable("WarehouseOrdersItems");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -515,13 +559,38 @@ namespace TiErp.Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ProductProductionItem", b =>
+                {
+                    b.HasOne("TiErp.Domain.Entities.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TiErp.Domain.Entities.ProductionItem", null)
+                        .WithMany()
+                        .HasForeignKey("ProductionItemsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("TiErp.Domain.Entities.ApplicationUser", b =>
                 {
                     b.HasOne("TiErp.Domain.Entities.Employee", "Employee")
                         .WithOne("User")
-                        .HasForeignKey("TiErp.Domain.Entities.ApplicationUser", "EmployeeId");
+                        .HasForeignKey("TiErp.Domain.Entities.ApplicationUser", "EmployeeId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("TiErp.Domain.Entities.Customer", b =>
+                {
+                    b.HasOne("TiErp.Domain.Entities.ApplicationUser", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.Navigation("CreatedBy");
                 });
 
             modelBuilder.Entity("TiErp.Domain.Entities.Employee", b =>
@@ -563,35 +632,26 @@ namespace TiErp.Infrastructure.Migrations
                     b.Navigation("ProductionLine");
                 });
 
-            modelBuilder.Entity("TiErp.Domain.Entities.EmployeePayroll", b =>
-                {
-                    b.HasOne("TiErp.Domain.Entities.Employee", "Employee")
-                        .WithOne("Payroll")
-                        .HasForeignKey("TiErp.Domain.Entities.EmployeePayroll", "EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
             modelBuilder.Entity("TiErp.Domain.Entities.Order", b =>
                 {
-                    b.HasOne("TiErp.Domain.Entities.Customer", "Customer")
+                    b.HasOne("TiErp.Domain.Entities.ApplicationUser", "CreatedBy")
                         .WithMany()
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("TiErp.Domain.Entities.Customer", "Customer")
+                        .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TiErp.Domain.Entities.ProductionLine", null)
-                        .WithMany("Orders")
-                        .HasForeignKey("ProductionLineId");
+                    b.Navigation("CreatedBy");
 
                     b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("TiErp.Domain.Entities.OrderItem", b =>
                 {
-                    b.HasOne("TiErp.Domain.Entities.Order", null)
+                    b.HasOne("TiErp.Domain.Entities.Order", "Order")
                         .WithMany("Items")
                         .HasForeignKey("OrderId");
 
@@ -601,47 +661,89 @@ namespace TiErp.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Order");
+
                     b.Navigation("Product");
                 });
 
             modelBuilder.Entity("TiErp.Domain.Entities.Product", b =>
                 {
+                    b.HasOne("TiErp.Domain.Entities.ApplicationUser", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
+
                     b.HasOne("TiErp.Domain.Entities.ProductionLine", "ProductionLine")
                         .WithMany("SupportedProducts")
                         .HasForeignKey("ProductionLineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("CreatedBy");
+
                     b.Navigation("ProductionLine");
                 });
 
             modelBuilder.Entity("TiErp.Domain.Entities.ProductionItem", b =>
                 {
-                    b.HasOne("TiErp.Domain.Entities.Product", "Product")
-                        .WithMany("ProductionItems")
-                        .HasForeignKey("ProductID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("TiErp.Domain.Entities.ApplicationUser", "CreatedBy")
+                        .WithMany()
+                        .HasForeignKey("CreatedById");
 
-                    b.Navigation("Product");
+                    b.Navigation("CreatedBy");
                 });
 
             modelBuilder.Entity("TiErp.Domain.Entities.ProductionLine", b =>
                 {
-                    b.HasOne("TiErp.Domain.Entities.ApplicationUser", "LineLider")
+                    b.HasOne("TiErp.Domain.Entities.ApplicationUser", "CreatedBy")
                         .WithMany()
-                        .HasForeignKey("LineLiderId");
+                        .HasForeignKey("CreatedById");
+
+                    b.HasOne("TiErp.Domain.Entities.Employee", "LineLider")
+                        .WithOne("LiderOfLine")
+                        .HasForeignKey("TiErp.Domain.Entities.ProductionLine", "LineLiderId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("CreatedBy");
 
                     b.Navigation("LineLider");
                 });
 
-            modelBuilder.Entity("TiErp.Domain.Entities.Employee", b =>
+            modelBuilder.Entity("TiErp.Domain.Entities.WarehouseOrder", b =>
                 {
-                    b.Navigation("Payroll")
+                    b.HasOne("TiErp.Domain.Entities.ProductionLine", "DeliveryToLine")
+                        .WithMany()
+                        .HasForeignKey("DeliveryToLineId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User")
+                    b.Navigation("DeliveryToLine");
+                });
+
+            modelBuilder.Entity("TiErp.Domain.Entities.WarehouseOrderItem", b =>
+                {
+                    b.HasOne("TiErp.Domain.Entities.ProductionItem", "ProductionItem")
+                        .WithMany()
+                        .HasForeignKey("ProductionItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("TiErp.Domain.Entities.WarehouseOrder", null)
+                        .WithMany("Items")
+                        .HasForeignKey("WarehouseOrderId");
+
+                    b.Navigation("ProductionItem");
+                });
+
+            modelBuilder.Entity("TiErp.Domain.Entities.Customer", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("TiErp.Domain.Entities.Employee", b =>
+                {
+                    b.Navigation("LiderOfLine");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TiErp.Domain.Entities.Order", b =>
@@ -649,18 +751,16 @@ namespace TiErp.Infrastructure.Migrations
                     b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("TiErp.Domain.Entities.Product", b =>
-                {
-                    b.Navigation("ProductionItems");
-                });
-
             modelBuilder.Entity("TiErp.Domain.Entities.ProductionLine", b =>
                 {
                     b.Navigation("Employees");
 
-                    b.Navigation("Orders");
-
                     b.Navigation("SupportedProducts");
+                });
+
+            modelBuilder.Entity("TiErp.Domain.Entities.WarehouseOrder", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }
