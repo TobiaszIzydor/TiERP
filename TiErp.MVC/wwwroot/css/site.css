@@ -20,3 +20,61 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.pl-28p{
+    padding-left: 28px;
+}
+aside .material-symbols-outlined {
+    color: #00aaff;
+    transition: 0.3s ease;
+}
+.btn-sidebar{
+    border-radius: 25px;
+    width: 25px;
+    height: 25px;
+    position:absolute;
+    top: 50%;
+    right: -12.5px;
+}
+.hidden{
+    display: none;
+}
+.big-size-ico {
+    width: 48px;
+    height: 48px;
+}
+aside {
+    transition: 0.3s ease;
+}
+.rotate-180{
+    transform: rotate(180deg);
+}
+.fit-content{
+    width: fit-content;
+}
+.toggle-size{
+    font-size: 24px;
+}
+.sidebar-overflow {
+    max-height: calc(100vh - 220px);
+    flex-wrap: nowrap;
+    overflow-y: scroll;
+}
+.sidebar-overflow::-webkit-scrollbar {
+    width: 6px; /* Szerokoœæ scrollbara */
+}
+
+.sidebar-overflow::-webkit-scrollbar-track {
+    background: #ffffff00; /* Kolor t³a tracka */
+    border-radius: 3px;
+}
+
+.sidebar-overflow::-webkit-scrollbar-thumb {
+    background: #c7c7c7;
+    border-radius: 3px;
+    max-height: 45px;
+}
+
+.sidebar-overflow::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8; /* Kolor scrollbara po najechaniu */
+}
