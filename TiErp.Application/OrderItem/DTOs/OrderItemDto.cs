@@ -17,5 +17,6 @@ namespace TiErp.Application.OrderItem.DTOs
         public int Quantity { get; set; }
         public int Made { get; set; }
         public Status Status { get; set; }
+        public DateTime? CompletedAt { get; set; }
     }
 }

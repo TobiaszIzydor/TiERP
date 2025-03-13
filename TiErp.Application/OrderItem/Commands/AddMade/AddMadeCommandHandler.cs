@@ -22,6 +22,7 @@ namespace TiErp.Application.OrderItem.Commands.AddMade
             {
                 orderItem.Made++;
                 orderItem.Status = Domain.Entities.Status.Done;
+                orderItem.CompletedAt = DateTime.UtcNow;
             }
             else if (orderItem.Quantity == orderItem.Made)
             {

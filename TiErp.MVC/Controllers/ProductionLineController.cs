@@ -78,6 +78,7 @@ namespace TiErp.MVC.Controllers
         }
         [Authorize(Roles = "Kierownik, Admin")]
         [HttpPost]
+        [Route("ProductionLine/{id}/Edit")]
         public async Task<IActionResult> Edit(EditProductionLineView view)
         {
             await _mediator.Send(view.EditProductionLineCommand);

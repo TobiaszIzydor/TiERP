@@ -68,5 +68,71 @@ namespace TiErp.Infrastructure.Repositories
                 .Where(p => p.Product.ProductionLine.Id == id).ToListAsync();
             return orders;
         }
+
+        public async Task<int> GetCountOrderItemsForProductionLine(ProductionLine productionLine)
+        {
+            int count = await _dbContext.OrderItems.Include(oi => oi.Product).Where(p => p.Product.ProductionLine == productionLine).CountAsync();
+            return count;
+        }
+
+        public async Task<int> GetCountOrderItemsCompletedForProductionLine(ProductionLine productionLine)
+        {
+            int count = await _dbContext.OrderItems.Include(oi => oi.Product).Where(oi => oi.Product.ProductionLine == productionLine).Where(oi => oi.Status == Status.Done).CountAsync();
+            return count;
+        }
+
+        public async Task<int> GetCountOrderItemsForProductionLineInMonth(ProductionLine productionLine)
+        {
+            int count = await _dbContext.OrderItems.Include(oi => oi.Product).Include(oi => oi.Order).Where(oi => oi.Order.DeadLine.Month == DateTime.UtcNow.Month).CountAsync();
+            return count;
+        }
+
+        public async Task<int> GetCountOrderItemsCompletedForProductionLineInMonth(ProductionLine productionLine)
+        {
+            int count = await _dbContext.OrderItems.Include(oi => oi.Product).Include(oi => oi.Order).Where(oi => oi.Product.ProductionLine == productionLine).Where(oi => oi.Status == Status.Done).Where(oi => DateOnly.FromDateTime((DateTime)oi.CompletedAt).Month == DateTime.UtcNow.Month).CountAsync();
+            return count;
+        }
+
+        public async Task<int> GetCountOrdersOverduedForProductionLineTotal(ProductionLine productionLine)
+        {
+            int count = await _dbContext.OrderItems.Include(oi => oi.Product).Include(oi => oi.Order).Where(oi => oi.Product.ProductionLine == productionLine).Where(oi => oi.Status != Status.Done).Where(oi => oi.Order.DeadLine < DateOnly.FromDateTime(DateTime.UtcNow)).CountAsync();
+            return count;
+        }
+
+        public async Task<int> GetCountOrderItemsInMonth()
+        {
+            int count = await _dbContext.OrderItems.Include(oi => oi.Order).Where(oi => oi.Order.DeadLine.Month == DateTime.UtcNow.Month).CountAsync();
+            return count;
+        }
+
+        public async Task<int> GetCountOrderItemsCompletedInMonth()
+        {
+            int count = await _dbContext.OrderItems.Include(oi => oi.Order).Where(oi => oi.Status == Status.Done).Where(oi => DateOnly.FromDateTime((DateTime)oi.CompletedAt).Month == DateTime.UtcNow.Month).CountAsync();
+            return count;
+        }
+
+        public async Task<int> GetCountOrderItemsCompleted()
+        {
+            int count = await _dbContext.OrderItems.Where(oi => oi.Status == Status.Done).CountAsync();
+            return count;
+        }
+
+        public async Task<int> GetCountOrderItems()
+        {
+            int count = await _dbContext.OrderItems.CountAsync();
+            return count;
+        }
+
+        public async Task<int> GetCountOrderItemsOverdued()
+        {
+            int count = await _dbContext.OrderItems.Include(oi => oi.Order).Where(oi => oi.Status != Status.Done).Where(oi => oi.Order.DeadLine < DateOnly.FromDateTime(DateTime.UtcNow)).CountAsync();
+            return count;
+        }
+
+        public async Task<int> GetCountOrderItemsOrderedInMonth()
+        {
+            int count = await _dbContext.OrderItems.Include(oi => oi.Order).Where(oi => oi.Order.OrderedAt.Month == DateTime.UtcNow.Month).CountAsync();
+            return count;
+        }
     }
 }

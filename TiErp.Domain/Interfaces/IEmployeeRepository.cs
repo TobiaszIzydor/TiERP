@@ -15,5 +15,6 @@ namespace TiErp.Domain.Interfaces
         Task<Employee> GetById(int employeeId);
         Task<IEnumerable<Employee>> GetLiders();
         Task DeleteById(int id);
+        Task<int> GetCountAllEmployees();
     }
 }

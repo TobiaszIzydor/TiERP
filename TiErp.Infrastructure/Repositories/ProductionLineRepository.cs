@@ -45,7 +45,7 @@ namespace TiErp.Infrastructure.Repositories
         public async Task Update(ProductionLine productionLine)
         {
             var toUpdate = await _dbContext.ProductionLines.FirstAsync(e => e.Id == productionLine.Id);
-            toUpdate.LineLider = productionLine.LineLider;
+            toUpdate.LineLiderId = productionLine.LineLiderId;
             toUpdate.Name = productionLine.Name;
             await _dbContext.SaveChangesAsync();
         }

@@ -1,0 +1,208 @@
+﻿@model DashboardModel;
+@{
+    ViewData["Title"] = "Dashboard";
+    var toDoTotal = Model.CountOrdersForProductionLineTotal - Model.CountOrdersCompletedForProductionLineTotal;
+    var toDoInMonth = Model.CountOrdersForProductionLineInMonth - Model.CountOrdersCompletedForProductionLineInMonth;
+}
+
+@if(User.IsInRole("Lider")){
+    <div class="row mb-4">
+        <div class="col d-flex mb-2">
+            <div class="card border-danger border-1 rounded w-100 shadow text-center p-2">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Opóźnionych</h5>
+                    <p class="card-text h2 mt-auto" id="pending-orders">@Model.CountOrdersOverduedForProductionLineTotal</p>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex mb-2">
+            <div class="card border-danger border-1 rounded w-100 shadow text-center p-2">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Do zrobienia w tym miesiącu</h5>
+                    <p class="card-text h2 mt-auto" id="pending-orders">@toDoInMonth</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Zrobione zamówienia -->
+        <div class="col d-flex mb-2">
+            <div class="card border-success border-1 rounded w-100 shadow text-center p-2">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Zrobione w tym miesiącu</h5>
+                    <p class="card-text h2 mt-auto" id="completed-orders">@Model.CountOrdersCompletedForProductionLineInMonth</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ogólna ilość zamówień -->
+        <div class="col d-flex mb-2">
+            <div class="card border-primary border-1 rounded w-100 shadow text-center p-2">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Całkowita ilość</h5>
+                    <p class="card-text h2 mt-auto" id="total-orders">@Model.CountOrdersForProductionLineTotal</p>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex mb-2">
+            <div class="card border-primary border-1 rounded w-100 shadow text-center p-2">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Całkowita ilość zrobionych</h5>
+                    <p class="card-text h2 mt-auto" id="total-orders">@Model.CountOrdersCompletedForProductionLineTotal</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <h1>Zamówienia dla linii produkcyjnej</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Id
+                </th>
+                <th>
+                    Produkt
+                </th>
+                <th>
+                    Ilość
+                </th>
+                <th>
+                    Status
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrdersForProductionLine)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Product.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edytuj", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (User.IsInRole("Kierownik") || User.IsInRole("Admin"))
+{
+    <div class="row mb-4">
+        <div class="col d-flex mb-2">
+            <div class="card border-danger border-1 rounded w-100 shadow text-center p-2">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Opóźnione zamówienia</h5>
+                    <p class="card-text h2 mt-auto">@Model.CountOverdueOrders</p>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex mb-2">
+            <div class="card border-primary border-1 rounded w-100 shadow text-center p-2">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Zamówienia na ten miesiąc</h5>
+                    <p class="card-text h2 mt-auto">@Model.CountOrdersInMonth</p>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex mb-2">
+            <div class="card border-success border-1 rounded w-100 shadow text-center p-2">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Zrealizowane zamówienia w tym miesiącu</h5>
+                    <p class="card-text h2 mt-auto">@Model.CountOrdersCompletedInMonth</p>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex mb-2">
+            <div class="card border-info border-1 rounded w-100 shadow text-center p-2">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Zrealizowane zamówienia ogółem</h5>
+                    <p class="card-text h2 mt-auto">@Model.CountOrdersCompleted</p>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex mb-2">
+            <div class="card border-info border-1 rounded w-100 shadow text-center p-2">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Zamówienia zamówienia ogółem</h5>
+                    <p class="card-text h2 mt-auto">@Model.CountTotalOrders</p>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex mb-2">
+            <div class="card border-warning border-1 rounded w-100 shadow text-center p-2">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Zamówionych produktów ogółem</h5>
+                    <p class="card-text h2 mt-auto">@Model.CountTotalOrdersItems</p>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex mb-2">
+            <div class="card border-dark border-1 rounded w-100 shadow text-center p-2">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Zamówienia złożone w tym miesiącu</h5>
+                    <p class="card-text h2 mt-auto">@Model.CountOrdersOrderedInMonth</p>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex mb-2">
+            <div class="card border-dark border-1 rounded w-100 shadow text-center p-2">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Zamówionych produktów w tym miesiącu</h5>
+                    <p class="card-text h2 mt-auto">@Model.CountOrderItemsOrderedInMonth</p>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex mb-2">
+            <div class="card border-secondary border-1 rounded w-100 shadow text-center p-2">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">Pracownicy</h5>
+                    <p class="card-text h2 mt-auto">@Model.CountAllEmployees</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h1>Wszystkie zamówienia</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Produkt</th>
+                <th>Ilość</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.AllOrders)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Product.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                    <td>
+                        @Html.ActionLink("Edytuj", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Szczegóły", "Details", new { id = item.Id }) |
+                        @Html.ActionLink("Usuń", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

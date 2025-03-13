@@ -20,18 +20,20 @@
         </nav>
     </header>
     <div class="container-fluid d-flex flex-grow-1 p-0">
-        <aside class="d-flex flex-column flex-shrink-0 p-3 bg-light position-relative">
-        <ul class="nav nav-pills flex-column mb-auto sidebar-overflow p-2" style="width:250px;">
+        <aside class="d-flex flex-column flex-shrink-0 p-3 bg-light position-relative" id="sidebar">
+        <ul class="nav nav-pills flex-column mb-auto sidebar-overflow p-2 dropright" style="width:250px;">
             <li class="nav-item">
-                    <button class="btn btn-toggle d-flex align-items-center rounded">
-                        <span class="toggle-size material-symbols-outlined me-1">
-                            home
-                        </span>
-                        <span class="link-text">Home</span>
-                    </button>
+                    <a href="/Dashboard" class="nav-link link-dark rounded p-0">
+                        <button class="btn btn-toggle d-flex align-items-center rounded nav-button">
+                            <span class="toggle-size material-symbols-outlined me-1">
+                                home
+                            </span>
+                            <span class="link-text">Home</span>
+                        </button>
+                    </a>
             </li>
-             <li class="nav-item">
-                <button class="btn btn-toggle d-flex align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#employees-collapse" aria-expanded="true">
+                <li class="nav-item dropright">
+                    <button class="btn btn-toggle d-flex align-items-center rounded nav-button" data-bs-toggle="collapse" data-bs-target="#employees-collapse" data-lock-when-collapsed="true" aria-expanded="true">
                         <span class="toggle-size material-symbols-outlined  me-1">
                             business_center
                         </span>
@@ -39,27 +41,31 @@
                 </button>
                     <div class="collapse" id="employees-collapse" style="">
                     <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small pl-28p">
+                        <li><h6 class="dropdown-header hidden">Employees</h6></li>
+                        <li><hr class="dropdown-divider hidden"></li>
                         <li><a href="/Employee/Create" class="nav-link link-dark rounded">Create</a></li>
                         <li><a href="/Employee" class="nav-link link-dark rounded">List</a></li>
                     </ul>
                 </div>
             </li>
              <li class="nav-item">
-                    <button class="btn btn-toggle d-flex align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="true">
+                    <button class="btn btn-toggle d-flex align-items-center rounded nav-button" data-bs-toggle="collapse" data-bs-target="#orders-collapse" data-lock-when-collapsed="true" aria-expanded="true">
                         <span class="toggle-size material-symbols-outlined me-1">
                             package_2
                         </span>
                         <span class="link-text">Orders</span>
                 </button>
-                    <div class="collapse" id="orders-collapse" style="">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small pl-28p">
+                <div class="collapse" id="orders-collapse" style="">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small pl-28p">
+                        <li><h6 class="dropdown-header hidden">Orders</h6></li>
+                        <li><hr class="dropdown-divider hidden"></li>
                         <li><a href="/Order/Create" class="nav-link link-dark rounded">Create</a></li>
                         <li><a href="/Order" class="nav-link link-dark rounded">List</a></li>
                     </ul>
                 </div>
             </li>
              <li class="nav-item">
-                <button class="btn btn-toggle d-flex align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#customers-collapse" aria-expanded="true">
+                    <button class="btn btn-toggle d-flex align-items-center rounded nav-button" data-bs-toggle="collapse" data-bs-target="#customers-collapse" data-lock-when-collapsed="true" aria-expanded="true">
                         <span class="toggle-size material-symbols-outlined me-1">
                             group
                         </span>
@@ -67,13 +73,15 @@
                 </button>
                     <div class="collapse" id="customers-collapse" style="">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small pl-28p">
+                        <li><h6 class="dropdown-header hidden">Customers</h6></li>
+                        <li><hr class="dropdown-divider hidden"></li>
                         <li><a href="/Customer/Create" class="nav-link link-dark rounded">Create</a></li>
                         <li><a href="/Customer" class="nav-link link-dark rounded">List</a></li>
                     </ul>
                 </div>
             </li>
              <li class="nav-item">
-                <button class="btn btn-toggle d-flex align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#plines-collapse" aria-expanded="true">
+                    <button class="btn btn-toggle d-flex align-items-center rounded nav-button" data-bs-toggle="collapse" data-bs-target="#plines-collapse" data-lock-when-collapsed="true" aria-expanded="true">
                         <span class="toggle-size material-symbols-outlined me-1">
                             conveyor_belt
                         </span>
@@ -81,27 +89,31 @@
                 </button>
                 <div class="collapse" id="plines-collapse" style="">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small pl-28p">
+                        <li><h6 class="dropdown-header hidden">Production Lines</h6></li>
+                        <li><hr class="dropdown-divider hidden"></li>
                         <li><a href="/ProductionLine/Create" class="nav-link link-dark rounded">Create</a></li>
                         <li><a href="/ProductionLine" class="nav-link link-dark rounded">List</a></li>
                     </ul>
                 </div>
             </li>
             <li class="nav-item">
-                <button class="btn btn-toggle d-flex align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#products-collapse" aria-expanded="true">
+                    <button class="btn btn-toggle d-flex align-items-center rounded nav-button" data-bs-toggle="collapse" data-bs-target="#products-collapse" data-lock-when-collapsed="true" aria-expanded="true">
                         <span class="toggle-size material-symbols-outlined me-1">
                             inventory_2
                         </span>
                         <span class="link-text">Products</span>
                 </button>
                 <div class="collapse" id="products-collapse" style="">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small pl-28p">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small pl-28p">
+                        <li><h6 class="dropdown-header hidden">Products</h6></li>
+                        <li><hr class="dropdown-divider hidden"></li>
                         <li><a href="/Product/Create" class="nav-link link-dark rounded">Create</a></li>
                         <li><a href="/Product" class="nav-link link-dark rounded">List</a></li>
                     </ul>
                 </div>
             </li>
                 <li class="nav-item">
-                    <button class="btn btn-toggle d-flex align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#pitems-collapse" aria-expanded="true">
+                    <button class="btn btn-toggle d-flex align-items-center rounded nav-button" data-bs-toggle="collapse" data-bs-target="#pitems-collapse" data-lock-when-collapsed="true" aria-expanded="true">
                         <span class="toggle-size material-symbols-outlined me-1">
                             category
                         </span>
@@ -109,13 +121,15 @@
                     </button>
                     <div class="collapse" id="pitems-collapse" style="">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small pl-28p">
+                            <li><h6 class="dropdown-header hidden">Production items</h6></li>
+                            <li><hr class="dropdown-divider hidden"></li>
                             <li><a href="/ProductionItem/Create" class="nav-link link-dark rounded">Create</a></li>
                             <li><a href="/ProductionItem" class="nav-link link-dark rounded">List</a></li>
                         </ul>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-toggle d-flex align-items-center rounded" data-bs-toggle="collapse" data-bs-target="#admin-collapse" aria-expanded="true">
+                    <button class="btn btn-toggle d-flex align-items-center rounded nav-button" data-bs-toggle="collapse" data-bs-target="#admin-collapse" data-lock-when-collapsed="true" aria-expanded="true">
                         <span class="toggle-size material-symbols-outlined me-1">
                             settings
                         </span>
@@ -123,6 +137,8 @@
                     </button>
                     <div class="collapse" id="admin-collapse" style="">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small pl-28p">
+                            <li><h6 class="dropdown-header hidden">Administration</h6></li>
+                            <li><hr class="dropdown-divider hidden"></li>
                             <li><a href="/Role/Set" class="nav-link link-dark rounded">Assign role to user</a></li>
                             <li><a href="/Employee/AssignToUser" class="nav-link link-dark rounded">Assign user to employee</a></li>
                         </ul>

@@ -21,5 +21,6 @@ namespace TiErp.Application.Employee.DTOs
         public Domain.Entities.ProductionLine? ProductionLine { get; set; }
         public string? UserId { get; set; }
         public Domain.Entities.ApplicationUser? User { get; set; }
+        public Domain.Entities.ProductionLine? LiderOfLine {  get; set; }
     }
 }

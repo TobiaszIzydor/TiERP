@@ -17,5 +17,16 @@ namespace TiErp.Domain.Interfaces
         Task<IEnumerable<OrderItem>> GetForProductionLine(int id);
         Task Commit();
         Task DeleteById(int id);
+        Task<int> GetCountOrderItemsForProductionLine(ProductionLine productionLine);
+        Task<int> GetCountOrderItemsCompletedForProductionLine(ProductionLine productionLine);
+        Task<int> GetCountOrderItemsForProductionLineInMonth(ProductionLine productionLine);
+        Task<int> GetCountOrderItemsCompletedForProductionLineInMonth(ProductionLine productionLine);
+        Task<int> GetCountOrdersOverduedForProductionLineTotal(ProductionLine productionLine);
+        Task<int> GetCountOrderItemsInMonth();
+        Task<int> GetCountOrderItemsCompletedInMonth();
+        Task<int> GetCountOrderItemsCompleted();
+        Task<int> GetCountOrderItems();
+        Task<int> GetCountOrderItemsOverdued();
+        Task<int> GetCountOrderItemsOrderedInMonth();
     }
 }

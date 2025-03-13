@@ -14,5 +14,6 @@ namespace TiErp.Domain.Interfaces
         Task Create(Order order);
         Task Commit();
         Task DeleteById(int id);
+        Task<int> GetCountOrderOrderedInMonth();
     }
 }

@@ -48,5 +48,11 @@ namespace TiErp.Infrastructure.Repositories
             var order = _dbContext.Orders.Include(o => o.Items).ThenInclude(p => p.Product).Include(o => o.CreatedBy).Include(o => o.Customer).FirstAsync(o => o.Id == id);
             return order;
         }
+
+        public async Task<int> GetCountOrderOrderedInMonth()
+        {
+            int count = await _dbContext.Orders.Where(o => o.OrderedAt.Month == DateTime.UtcNow.Month).CountAsync();
+            return count;
+        }
     }
 }

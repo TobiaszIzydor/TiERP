@@ -10,6 +10,7 @@ namespace TiErp.Domain.Entities
     {
         public int Id { get; set; }
         public DateOnly DeadLine { get; set; }
+        public DateTime OrderedAt { get; set; } = DateTime.UtcNow;
 
         public int CustomerId { get; set; }
         public Customer Customer { get; set; }

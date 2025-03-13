@@ -40,8 +40,10 @@ namespace TiErp.Infrastructure.Repositories
             => await _dbContext.Employees.Include(e => e.User).ToListAsync();
 
         public async Task<Employee> GetById(int employeeId)
-            => await _dbContext.Employees.Include(e => e.User).FirstAsync(e => e.Id == employeeId);
+            => await _dbContext.Employees.Include(e => e.User).Include(e => e.ProductionLine).ThenInclude(pl => pl.LineLider).FirstAsync(e => e.Id == employeeId);
 
+        public async Task<int> GetCountAllEmployees()
+            => await _dbContext.Employees.CountAsync();
         public async Task<IEnumerable<Employee>> GetLiders()
             => await _dbContext.Employees.Where(e => e.User != null && _dbContext.UserRoles.Any(ur => ur.UserId == e.User.Id && ur.RoleId == _dbContext.Roles.Where(r => r.Name == "Lider").Select(r => r.Id).FirstOrDefault())).ToListAsync();
     }
