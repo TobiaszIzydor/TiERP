@@ -3,6 +3,7 @@ using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using TiErp.Application.ApplicationUser;
@@ -25,15 +26,27 @@ namespace TiErp.Application.Order.Commands.CreateOrder
         }
         public async Task<Unit> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            if (request.Order != null)
+            if (request != null && request.Order != null)
             {
                 var order = _mapper.Map<Domain.Entities.Order>(request.Order);
-                order.CreatedById = (await _userContext.GetCurrentUserAsync()).Id;
-                order.Customer = await _customerRepository.GetById(order.CustomerId);
+                var user = await _userContext.GetCurrentUserAsync(); // Upewnij się, że _userContext to mock
+                if (user == null)
+                {
+                    throw new ArgumentException(nameof(user.Id));
+                }
+                order.CreatedById = user.Id;
+                order.Customer = await _customerRepository.GetById(order.CustomerId) ?? throw new ArgumentException(nameof(order.Customer));
                 await _orderRepository.Create(order);
                 return Unit.Value;
             }
-            return Unit.Value;
+            else if (request.Order == null)
+            {
+                throw new ArgumentNullException(nameof(request.Order));
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
         }
     }
 }

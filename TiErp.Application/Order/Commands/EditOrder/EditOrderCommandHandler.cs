@@ -31,6 +31,11 @@ namespace TiErp.Application.Order.Commands.EditOrder
                 }
 
                 order.DeadLine = (DateOnly)updatedOrder.DeadLine;
+                await _orderRepository.Commit();
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(request));
             }
             return Unit.Value;
 

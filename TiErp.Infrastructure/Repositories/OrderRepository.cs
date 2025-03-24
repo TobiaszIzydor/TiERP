@@ -45,7 +45,11 @@ namespace TiErp.Infrastructure.Repositories
 
         public Task<Order> GetById(int id)
         {
-            var order = _dbContext.Orders.Include(o => o.Items).ThenInclude(p => p.Product).Include(o => o.CreatedBy).Include(o => o.Customer).FirstAsync(o => o.Id == id);
+            var order = _dbContext.Orders.Include(o => o.Items).ThenInclude(p => p.Product).Include(o => o.CreatedBy).Include(o => o.Customer).FirstOrDefaultAsync(o => o.Id == id);
+            if(order.Result == null)
+            {
+                throw new ArgumentException("An order with this ID does not exist.");
+            }
             return order;
         }
 

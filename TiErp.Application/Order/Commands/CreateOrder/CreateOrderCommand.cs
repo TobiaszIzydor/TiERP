@@ -13,7 +13,7 @@ namespace TiErp.Application.Order.Commands.CreateOrder
         public Domain.Entities.Order Order { get; set; }
         public CreateOrderCommand(Domain.Entities.Order order)
         {
-            Order = order;
+           Order = order;
         }
         public CreateOrderCommand()
         {

@@ -45,7 +45,14 @@ namespace TiErp.MVC.Controllers
         [Route("Order/{id}/Details")]
         public async Task<IActionResult> Details(int id)
         {
-            var order = await _mediator.Send(new GetOrderByIdQuery(id));
+            var order = new Application.Order.DTOs.OrderDto();
+            try
+            {
+                order = await _mediator.Send(new GetOrderByIdQuery(id));
+            }
+            catch(ArgumentException ex) {
+                ViewBag.Error = ex.Message;
+            }
             return View(order);
         }
 

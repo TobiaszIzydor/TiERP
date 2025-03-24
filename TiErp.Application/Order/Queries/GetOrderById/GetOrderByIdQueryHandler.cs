@@ -23,6 +23,10 @@ namespace TiErp.Application.Order.Queries.GetOrderById
         public async Task<OrderDto> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
         {
             var order = await _orderRepository.GetById(request.Id);
+            if (order == null)
+            {
+                return null;
+            }
             var dto = _mapper.Map<OrderDto>(order);
             return dto;
         }

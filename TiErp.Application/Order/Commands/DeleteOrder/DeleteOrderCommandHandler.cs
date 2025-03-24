@@ -20,14 +20,22 @@ namespace TiErp.Application.Order.Commands.DeleteOrder
         public async Task<Unit> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
         {
             var order = await _orderRepository.GetById(request.Id);
-            var itemsToDelete = order.Items.ToList();
-
-            foreach (var item in itemsToDelete)
+            if (order != null)
             {
-                await _orderItemRepository.DeleteById(item.Id);
+                var itemsToDelete = order.Items.ToList();
+
+                foreach (var item in itemsToDelete)
+                {
+                    await _orderItemRepository.DeleteById(item.Id);
+                }
+                await _orderRepository.DeleteById(request.Id);
+                return Unit.Value;
             }
-            await _orderRepository.DeleteById(request.Id);
-            return Unit.Value;
+            else
+            {
+                throw new ArgumentNullException(nameof(Domain.Entities.Order));
+            }
+            
         }
     }
 }
