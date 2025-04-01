@@ -26,6 +26,10 @@ namespace TiErp.Application.Customer.Commands.CreateCustomer
         public async Task<Unit> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
         {
             var customer = _mapper.Map<Domain.Entities.Customer>(request);
+            if(customer.Name == null || customer.Phone == null)
+            {
+                throw new ArgumentException("Name or phone was not defined.");
+            }
             if((await _userContext.GetCurrentUserAsync()).Id != null)
             {
                 customer.CreatedById = (await _userContext.GetCurrentUserAsync()).Id;

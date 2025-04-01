@@ -18,6 +18,7 @@ using TiErp.Domain.Entities;
 using TiErp.Domain.Interfaces;
 using TiErp.Infrastructure.Repositories;
 using TiErp.MVC.Models;
+using TiErp.MVC.ModelValidators;
 
 namespace TiErp.MVC.Controllers
 {
@@ -71,6 +72,21 @@ namespace TiErp.MVC.Controllers
         [Authorize(Roles = "Kierownik, Admin")]
         public async Task<IActionResult> Create(OrderViewModel view)
         {
+            var validator = new OrderViewModelValidator();  // Twój walidator
+            var validationResult = await validator.ValidateAsync(view);
+
+            if (!validationResult.IsValid)
+            {
+                foreach (var failure in validationResult.Errors)
+                {
+                    ModelState.AddModelError(failure.PropertyName, failure.ErrorMessage);
+                }
+                view.Customers = await _mediator.Send(new GetAllCustomersQuery());
+                view.Products = await _mediator.Send(new GetAllProductsSimpleQuery());
+                view.CustomerId = view.CustomerId;
+                view.DeadLine = view.DeadLine;
+                return View(view);
+            }
             var order = new Order
             {
                 Items = view.Items.Select(i => new OrderItem
@@ -81,7 +97,9 @@ namespace TiErp.MVC.Controllers
                 CustomerId = view.CustomerId,
                 DeadLine = view.DeadLine,
             };
-            await _mediator.Send(new CreateOrderCommand(order));
+            var command = new CreateOrderCommand(order);
+
+            await _mediator.Send(command);
             return RedirectToAction(nameof(Create));
         }
         [Authorize(Roles = "Kierownik, Admin")]

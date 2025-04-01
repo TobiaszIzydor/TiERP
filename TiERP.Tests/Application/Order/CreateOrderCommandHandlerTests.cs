@@ -102,7 +102,55 @@ public class CreateOrderCommandHandlerTests
         // Assert
         await act.Should().ThrowAsync<ArgumentNullException>();
     }
+    [Fact]
+    public async Task Handle_Should_Throw_ArgumentException_When_Order_Item_Has_Zero_Quantity()
+    {
+        // Arrange
+        var orderDto = new OrderDto
+        {
+            CustomerId = 1,
+            DeadLine = DateOnly.Parse("2025-12-31"),
+            Items = new List<OrderItem>
+            {
+                new OrderItem { ProductId = 1, Quantity = 0 },
+                new OrderItem { ProductId = 2, Quantity = 5 }
+            }
+        };
 
+        var user = new ApplicationUser { Id = "user_1", Email = "email@email.com" };
+        var customer = new Customer { Id = 1, Name = "Test Customer", Address = "Poznan", Phone = "112345678" };
+
+        _userContextMock.Setup(x => x.GetCurrentUserAsync())
+            .ReturnsAsync(new CurrentUser(user.Id, user.Email, null, new List<string> { "Admin" }));
+
+        _customerRepositoryMock.Setup(x => x.GetById(1))
+            .ReturnsAsync(customer);
+
+        var mappedOrder = new Domain.Entities.Order
+        {
+            CustomerId = orderDto.CustomerId,
+            DeadLine = (DateOnly)orderDto.DeadLine,
+            CreatedById = user.Id,
+            Items = orderDto.Items
+        };
+
+        _mapperMock.Setup(x => x.Map<Domain.Entities.Order>(It.IsAny<Order>()))
+            .Returns((Order dto) => new Domain.Entities.Order
+            {
+                CustomerId = dto.CustomerId,
+                DeadLine = (DateOnly)dto.DeadLine,
+                CreatedById = user.Id,
+                Items = dto.Items ?? new List<OrderItem>()
+            });
+
+        var command = new CreateOrderCommand(mappedOrder);
+
+        // Act
+        Func<Task> act = async () => await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        await act.Should().ThrowAsync<ArgumentException>();
+    }
     [Fact]
     public async Task Handle_Should_Throw_ArgumentException_When_Customer_Not_Found()
     {

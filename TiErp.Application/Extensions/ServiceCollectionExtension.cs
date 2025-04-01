@@ -45,7 +45,7 @@ namespace TiErp.Application.Extensions
                 //cfg.RegisterServicesFromAssembly(typeof(SomeOtherCommand).Assembly);
             });
             services.AddAutoMapper(typeof(MappingProfile));
-            services.AddValidatorsFromAssemblyContaining<CreateEmployeeCommandValidator>()
+            services.AddValidatorsFromAssemblyContaining<CreateOrderCommandValidator>()
                 .AddFluentValidationAutoValidation()
                 .AddFluentValidationClientsideAdapters();
         }

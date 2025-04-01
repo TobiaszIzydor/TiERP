@@ -43,7 +43,8 @@ namespace TiErp.Infrastructure.Repositories
             => await _dbContext.Customers.Include(p => p.CreatedBy).ToListAsync();
         
         public async Task<Customer> GetById(int id)
-            => await _dbContext.Customers.Include(p => p.CreatedBy).FirstAsync(x => x.Id == id);
+            => await _dbContext.Customers.Include(p => p.CreatedBy)
+            .Include(c => c.Orders).FirstAsync(x => x.Id == id);
 
     }
 }

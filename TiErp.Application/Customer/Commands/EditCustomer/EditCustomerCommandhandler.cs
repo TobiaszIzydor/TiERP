@@ -6,15 +6,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TiErp.Application.Customer.DTOs;
+using TiErp.Domain.Entities;
 using TiErp.Domain.Interfaces;
 
 namespace TiErp.Application.Customer.Commands.EditCustomer
 {
-    public class EditCustomerCommandhandler : IRequestHandler<EditCustomerCommand, Unit>
+    public class EditCustomerCommandHandler : IRequestHandler<EditCustomerCommand, Unit>
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly IMapper _mapper;
-        public EditCustomerCommandhandler(ICustomerRepository customerRepository, IMapper mapper)
+        public EditCustomerCommandHandler(ICustomerRepository customerRepository, IMapper mapper)
         {
             _customerRepository = customerRepository;
             _mapper = mapper;
@@ -29,6 +30,10 @@ namespace TiErp.Application.Customer.Commands.EditCustomer
                 customer.Phone = updatedCustomer.Phone;
                 customer.Name = updatedCustomer.Name;
                 await _customerRepository.Commit();
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(Customer));
             }
             return Unit.Value;
         }

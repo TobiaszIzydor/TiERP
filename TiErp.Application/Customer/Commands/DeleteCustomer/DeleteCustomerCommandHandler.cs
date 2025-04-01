@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Autofac.Features.ResolveAnything;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,8 +18,20 @@ namespace TiErp.Application.Customer.Commands.DeleteCustomer
         }
         public async Task<Unit> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
         {
-            await _customerRepository.DeleteById(request.Id);
-            return Unit.Value;
+            var customer = await _customerRepository.GetById(request.Id);
+            if (customer != null)
+            {
+                if (customer.Orders?.Any() == true)
+                {
+                    throw new InvalidOperationException("The customer cannot be deleted because they have active orders.");
+                }
+                await _customerRepository.DeleteById(request.Id);
+                return Unit.Value;
+            }
+            else
+            {
+                throw new ArgumentNullException(nameof(customer));
+            }
         }
     }
 }

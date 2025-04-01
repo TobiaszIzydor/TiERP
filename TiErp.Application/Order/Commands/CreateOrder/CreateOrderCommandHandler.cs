@@ -32,7 +32,14 @@ namespace TiErp.Application.Order.Commands.CreateOrder
                 var user = await _userContext.GetCurrentUserAsync(); // Upewnij się, że _userContext to mock
                 if (user == null)
                 {
-                    throw new ArgumentException(nameof(user.Id));
+                    throw new ArgumentException("The sender's user session could not be defined.");
+                }
+                foreach(var item in order.Items)
+                {
+                    if (item.Quantity <= 0)
+                    {
+                        throw new ArgumentException("The quantity cannot by lower than 1");
+                    }
                 }
                 order.CreatedById = user.Id;
                 order.Customer = await _customerRepository.GetById(order.CustomerId) ?? throw new ArgumentException(nameof(order.Customer));
@@ -41,7 +48,7 @@ namespace TiErp.Application.Order.Commands.CreateOrder
             }
             else if (request.Order == null)
             {
-                throw new ArgumentNullException(nameof(request.Order));
+                throw new ArgumentNullException("Order cannot be empty.");
             }
             else
             {

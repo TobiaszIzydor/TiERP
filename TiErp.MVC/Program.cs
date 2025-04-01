@@ -5,6 +5,7 @@ using TiErp.Application.Extensions;
 using TiErp.Infrastructure.Seeders;
 using Microsoft.AspNetCore.Identity;
 using TiErp.Domain.Entities;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

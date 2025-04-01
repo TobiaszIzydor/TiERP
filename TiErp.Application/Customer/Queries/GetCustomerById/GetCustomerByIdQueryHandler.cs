@@ -23,6 +23,8 @@ namespace TiErp.Application.Customer.Queries.GetCustomerById
         public async Task<CustomerDto> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
         {
             var customer = await _customerRepository.GetById(request.Id);
+            if (customer == null)
+                return null;
             var dto = _mapper.Map<CustomerDto>(customer);
             return dto;
         }

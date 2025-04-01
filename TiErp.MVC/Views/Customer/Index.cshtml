@@ -3,7 +3,10 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+@if (ViewBag.ErrorMessage != null)
+{
+    <h3 class="alert alert-danger">@ViewBag.ErrorMessage</h3>
+}
 <h1>Lista klientów</h1>
 
 <p>

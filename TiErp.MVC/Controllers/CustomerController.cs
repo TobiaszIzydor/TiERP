@@ -31,7 +31,7 @@ public class CustomerController : Controller
     [Authorize(Roles ="Kierownik, Admin")]
     public async Task<IActionResult> Index()
     {
-
+        ViewBag.ErrorMessage = TempData["ErrorMessage"];
         var Customers = await _mediator.Send(new GetAllCustomersQuery());
         return View(Customers);
     }
@@ -88,7 +88,14 @@ public class CustomerController : Controller
     [Authorize(Roles = "Kierownik, Admin")]
     public async Task<IActionResult> Delete(int id)
     {
-        await _mediator.Send(new DeleteCustomerCommand(id));
+        try
+        {
+            await _mediator.Send(new DeleteCustomerCommand(id));
+        }
+        catch (Exception ex)
+        {
+            TempData["ErrorMessage"] = ex.Message;
+        }
         return RedirectToAction(nameof(Index));
     }
 }

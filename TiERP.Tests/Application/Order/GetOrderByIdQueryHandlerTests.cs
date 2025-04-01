@@ -87,12 +87,10 @@ namespace TiErp.Tests.Application.Order
             _orderRepositoryMock.Setup(x => x.GetById(nonExistentOrderId))
                 .ReturnsAsync((Domain.Entities.Order)null);
 
-            var handler = new GetOrderByIdQueryHandler(_orderRepositoryMock.Object, _mapperMock.Object);
-
             var query = new GetOrderByIdQuery(nonExistentOrderId);
 
             // Act
-            var result = await handler.Handle(query, CancellationToken.None);
+            var result = await _handler.Handle(query, CancellationToken.None);
 
             // Assert
             result.Should().BeNull();
